@@ -1,4 +1,6 @@
 # 딕셔너리 Dictionary Type = {key1 : value1, key2 : value2, ... }
+import copy
+
 a = {1:'a', 2:'b'}
 # print(a) => {1: 'a', 2: 'b'}
 
@@ -53,12 +55,11 @@ print(list_tmp) # 리스트 내장함수 사용 가능
 dict_keys = a.keys()
 print(dict_keys)
 
-# key 값 뽑아내는 방법
-# 1
+# key 값 뽑아내는 방법 1
 for k in a.keys(): # dict_keys(['name', 'ID'])
     print(k)
 
-# 2
+# key 값 뽑아내는 방법 2
 # for (int i = 0; i < 10; i++)
 for idx in range(len(list_tmp)):
     print(list_tmp[idx])
@@ -84,9 +85,29 @@ print(dict_values, type(dict_values))
 # dict_values([['kang', 'goo', 'kim1', 'kim2'], [23001, 23002]]) <class 'dict_values'>
 dict_values_list = list(dict_values)
 
-# items()
+# items() : 해당 딕셔너리의 모든 요소
 print(a.items(), type(a.items()))
 # dict_items([('name', ['kang', 'goo', 'kim1', 'kim2']), ('ID', [23001, 23002])]) <class 'dict_items'>
 
 dict_items_list = list(a.items())
 print(dict_items_list[0][1][0]) # kang
+
+# clear : 해당 딕셔너리 요소 모두 삭제
+a['phone'] = ["010-1234-5678"]
+
+b = a
+# c = a[:] => 딕셔너리는 인덱스가 없으므로 슬라이싱도 사용불가
+d = a.copy() #
+e = copy.deepcopy(a)
+print('id(a) : ', id(a), ', id(b) : ', id(b), ', id(d) : ', id(d), ', id(e) : ', id(e))
+
+a.clear()
+print('a : ', a, ', b : ', b, ', d : ', d, ', e : ', e)
+# 여기서 copy랑 deep copy는 차이가 없는거같은디
+
+# in => True / False 반환
+print('name' in a, 'ID' in a) # False False
+print('name' in d, 'addr' in d) # True False
+
+# get
+print(a.get('name', 'No Data')) # None => 디폴트값 설정 : No Data
