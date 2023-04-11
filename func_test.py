@@ -79,3 +79,27 @@ say_myself('학생1', 25) # 3개를 모두 정상 출력
 say_myself('학생2', 28, dept='Electronic')
 # say_myself('학생3', dept='Test') # 디폴트값 지정되지 않은 매개변수의 경우 값을 주지 않으면 에러 발생
 # TypeError: say_myself() missing 1 required positional argument: 'age'
+
+# 함수의 범위
+a = 1
+def vartest(a):
+    a = a + 1
+    print(f'지역변수 a = {a}')
+vartest(a)
+print(f'전역변수 a = {a}')
+
+# global 변수 (전역변수)
+a = 1
+def globalTest(arg):
+    global a
+    a = arg + 1
+print(f'before call function: value a = {a}') # a = 1
+globalTest(3)
+print(f'after call function: value a = {a}') # a = 4
+
+# 람다 lambda : 함수를 한줄로 간단히 표현
+# C : 매크로 함수
+# C언어로 표현하면 #define MUL(a, b) (a) * (b)
+mul = lambda a, b: a * b
+result = mul(3, 4)
+print(result)
