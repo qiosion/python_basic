@@ -2,7 +2,7 @@
 # 구구단 만들기 : 2중 for문
 for i in range(2, 10):
     for j in range(1, 10):
-        print(i * j, end="  ")
+        print(i * j, end="\t")
     print('')
 
 # 리스트 내포 1
