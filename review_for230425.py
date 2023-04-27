@@ -53,7 +53,7 @@ print(test1)
 
 param2 = [1, 4, 2, 3, -9999]
 test2 = sol2(param2)
-print(param2)
+print(test2)
 
 param3 = 3
 test3 = sol3(param3)
