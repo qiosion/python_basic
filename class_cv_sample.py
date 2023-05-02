@@ -10,7 +10,7 @@ class Bank:
     # 아래는 클래스 변수로서 여러 인스턴스가 공유됨
     countAccount = 0 # 만들어진 계좌의 총 갯수
     numUniqAccount = 1000 # 계좌번호
-    total = 0 # 은행의 잔고
+    total = 0 # 클래스 변수. 은행의 잔고
 
     # 새로운 고객이 생김
     def __init__(self, name, alias, password):
@@ -20,7 +20,7 @@ class Bank:
         self. alias = alias
         self.password = password
         self.numUniqAccount = Bank.numUniqAccount
-        self.total = 0 # 고객의 잔고. 0부터 시작
+        self.total = 0 # 객체 변수. 고객의 잔고
 
     def income(self, money): # 고객이 돈을 넣으면,
         Bank.total += money # 은행의 총 잔고가 늘어나고
