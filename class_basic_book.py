@@ -50,4 +50,36 @@ class FourCal:
 
 # 생성자
 cal_2 = FourCal(5, 3)
-print(cal_2.add())
+print(cal_2.add()) # 8
+
+class MoreCalc(FourCal):
+    def __init__(self, first, second, third=12):
+        super().__init__(first, second)
+        self.third = third
+
+    # 제곱 pow(a, b) = first ^ second
+    def pow(self):
+        return self.first ** self.second
+
+    # 오버라이딩을 통해 더하기 연산을 변경
+    # first + second + third
+    def add(self):
+        return super().add() + self.third
+
+    # 오버라이딩을 통해 나누기 연산을 안정화 ( second가 0일때 0으로 반환)
+    def div(self):
+        if self.second == 0:
+            return 0
+        else:
+            return self.first / self.second
+
+moreCalc0 = MoreCalc(4, 2)
+moreCalc1 = MoreCalc(3, 7)
+moreCalc2 = MoreCalc(1, 0)
+
+print(moreCalc0.add()) # 18 : 4 + 2 + (third)12
+print(moreCalc0.mul()) # 4 * 2 = 8
+print(moreCalc1.sub()) # 3 - 7 = -4
+print(moreCalc1.mul()) # 3 * 7 = 21
+print(moreCalc2.mul()) # 0 : second == 0 이므로 1 * 0 = 0
+print(moreCalc2.div()) # 0 : second == 0 이므로 0을 리턴
