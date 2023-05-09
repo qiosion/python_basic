@@ -89,3 +89,70 @@ for value in customer_list:
     cost = value.calcPrice(price)
     print(f'{value.name}님은 {cost}를 지불하였습니다.')
     print(f'{value.name}님의 현재 포인트는 {value.bonusPoint} 입니다.')
+
+
+# 상속하는 방법
+# 자바 : Class 자손클래스 extends 조상클래스
+# 파이썬 : class 자손클래스 (조상클래스)
+class Rect: # 사각형
+    def __init__(self, w, h):
+        self.w = w
+        self.h = h
+
+    def area(self):
+        return self.w * self.h
+
+    def perimeter(self): # 둘레
+        return 2 * self.w + 2 * self.h
+
+    def calc_area(self):
+        print("==")
+        return self.w * self.h
+
+class Square: # 정사각형
+    def __init__(self, w):
+        self.w = w
+
+    def area(self):
+        return self.w ** 2
+
+    def perimeter(self):
+        return self.w * 4
+
+class SquareInh(Rect): # 사각형을 상속받아 만든 정사각형
+    def __init__(self, w):
+        super().__init__(w, w)
+
+    def calc_area(self):
+        print("==parent==")
+        return self.w * self.w
+
+class Cube(SquareInh): # 정육면체
+    def volume(self): # 한 면의 넓이
+        vol = super().calc_area() # 상위클래스의 calc_area 메서드
+        return vol * self.w
+
+    def surface(self):
+        sur_area = super(SquareInh, self).calc_area() # 상위 -> 상위 클래스의 calc_area
+        # 정육면체의 넓이 : w * w * 6
+        return sur_area * 6
+
+print('>>> 사각형')
+rect = Rect(2, 6)
+print(rect.area()) # 12
+print(rect.perimeter()) # 16
+
+print('>>> 정사각형')
+square = Square(4)
+print(square.area()) # 16
+print(square.perimeter()) # 16
+
+print('>>> 사각형을 상속받아 만든 정사각형')
+square_inh = SquareInh(4)
+print(square_inh.area()) # 16
+print(square_inh.perimeter()) # 16
+
+print('>>> 정육면체')
+cube = Cube(3)
+print(cube.volume()) # ==parent==      27
+print(cube.surface()) # ==      54
