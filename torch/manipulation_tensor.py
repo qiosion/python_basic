@@ -238,6 +238,7 @@ if use_gpu:
 #     - 2-dimensional vector 2차원 벡터 : 평면에서의 좌표. x축, y축으로 이동한 점
 #     - 3-dimensional vector : 3차원 공간에서의 좌표. x축, y축, z축으로 이동한 점
 
+"""
 # 4. mean, sum, max, argmax, ..
 # dimension 옵션
 # m1.mean(dim=0 or 1)
@@ -276,4 +277,121 @@ print(t.max(dim=0))
 # torch.return_types.max(values=tensor([6., 7., 7.]), indices=tensor([1, 1, 1]))
 print(t.max(dim=1))
 # torch.return_types.max(values=tensor([5., 7.]), indices=tensor([2, 1]))
+
+"""
+
+"""
+# View : shape을 변경할 때 사용 => 원소의 갯수는 그대로 유지하고, 형태만 변경
+# 2 x 2 x 3 [[[], []], [[],[]]]
+
+t = torch.FloatTensor([
+    [
+        [0, 1, 2],
+        [3, 4, 5]
+    ],
+    [
+        [6, 7, 8],
+        [9, 10, 11]
+    ]
+])
+
+print(t.shape, t.dim()) # torch.Size([2, 2, 3]) 3
+
+# 3D tensor => 2D tensor
+t2 = t.view([-1, 3]) # view를 통해 N x 3 Matrix 를 만들겠다 (2D)
+# -1 : 전체를 의미하고, 알아서 계산해달라는 뜻
+# t.view([4,3]) 이라고 적어도 똑같은 결과를 내지만, 4라는 숫자를 계산하기 싫으면 -1 적으면 됨
+
+print(t2.shape, t2.dim()) # torch.Size([4, 3]) 2
+print(t2) # tensor([[ 0.,  1.,  2.], [ 3.,  4.,  5.], [ 6.,  7.,  8.], [ 9., 10., 11.]])
+
+# 3D tensor => 3D tensor : 형태 shape만 변경
+# 2 x 2 x 3 => 4 x 1 x 3
+t3 = t.view([4, 1, 3])
+print(t3.shape, t3.dim()) # torch.Size([4, 1, 3]) 3
+print(t3) # tensor([[[ 0.,  1.,  2.]], [[ 3.,  4.,  5.]], [[ 6.,  7.,  8.]], [[ 9., 10., 11.]]])
+
+"""
+
+"""
+# Squeeze : Nx1 => N벡터로 변경. 1인 차원을 제거하는 역할
+t = torch.FloatTensor([ [0], [1], [2] ])
+t_sq = t.squeeze()
+print(t.shape, t) # torch.Size([3, 1]) tensor([[0.], [1.], [2.]])
+print(t_sq.shape, t_sq) # torch.Size([3]) tensor([0., 1., 2.])
+
+# unSqueeze : 특정 위치에 1인 차원을 추가
+t = torch.FloatTensor([0, 1, 2]) # 1D tensor, Vector(3 dimensional Vector)
+# t를 unsqueeze(0 or 1) 해서 1x3 matrix, 3x1 matrix 를 만들 수 있다
+# unsqueeze(0) -> row를 추가해 1x3 만듦
+# unsqueeze(1) -> column를 추가해 3x1 만듦
+t_row = t.unsqueeze(0)
+t_col = t.unsqueeze(1)
+print(t_row.shape, t_col.shape) # torch.Size([1, 3]) torch.Size([3, 1])
+"""
+
+"""
+# concatenation (torch.cat)
+# 여러 파일에서 가져온 데이터를 합쳐서 사용하는 경우, 흩어진 텐서를 하나로 묶어주는 방법이 있다
+# 합치는 방향 : dim=0 -> row, dim=1 -> col
+# concat은 dim을 기준으로 작용함. vector를 cat 하려면 unsqueeze를 통해 차수를 확장시켜야함
+x1 = torch.FloatTensor([ [1, 2], [3, 4] ]) # 2x2
+x2 = torch.FloatTensor([ [5, 6], [7, 8] ]) # 2x2
+
+t_row = torch.cat([x1, x2], dim=0) # 4x2 matrix가 됨
+t_col = torch.cat([x1, x2], dim=1) # 2x4 행렬
+
+print(t_row.shape, t_row.dim(), t_row)
+# torch.Size([4, 2]) 2 tensor([[1., 2.], [3., 4.], [5., 6.], [7., 8.]])
+
+print(t_col.shape, t_col.dim(), t_col)
+# torch.Size([2, 4]) 2 tensor([[1., 2., 5., 6.], [3., 4., 7., 8.]])
+"""
+
+"""
+# concat은 dim을 기준으로 작용함
+# 1D tensor, 즉 vector를 cat 하려면 unsqueeze를 통해 차수를 확장시켜야함
+
+x = torch.FloatTensor([1, 2])
+y = torch.FloatTensor([3, 4])
+z = torch.FloatTensor([5, 6])
+
+t_con = torch.cat([x, y, z], dim=0)
+print(t_con) # tensor([1., 2., 3., 4., 5., 6.])
+# dim=0을 통해 row기준으로 합치라고 해도 옆으로만 쭉 붙는다
+
+# 1D tensor => unsqueeze(0) 을 통해 1xN 으로 만듦
+torch.cat([x.unsqueeze(0), y.unsqueeze(0), z.unsqueeze(0)], dim=0) # 3x2 2D tensor
+torch.cat([x.unsqueeze(0), y.unsqueeze(0), z.unsqueeze(0)], dim=1) # 2x3 2D tensor
+"""
+
+"""
+# stack : 텐서를 연결하는 방법 중 하나
+# 2 dimensional vector 3개를 만들고, stacking 해서 3x2 tensor 생성
+x = torch.FloatTensor([1, 2])
+y = torch.FloatTensor([3, 4])
+z = torch.FloatTensor([5, 6])
+
+print(torch.stack([x, y, z], dim=0))
+# tensor([[1., 2.], [3., 4.], [5., 6.]])
+print(torch.stack([x, y, z], dim=1))
+# tensor([[1., 3., 5.], [2., 4., 6.]])
+"""
+
+# zero Tensor, 1로 채워진 텐서
+x = torch.FloatTensor([
+    [1, 2, 3],
+    [4, 5, 6]
+])
+
+# x와 동일한 형태로 zero tensor, one tensor를 생성하고 싶을 경우
+x_zeros = torch.zeros_like(x)
+x_ones = torch.ones_like(x)
+
+print(f'{x}\n{x_zeros}\n{x_ones}')
+# tensor([[1., 2., 3.], [4., 5., 6.]])
+# tensor([[0., 0., 0.], [0., 0., 0.]])
+# tensor([[1., 1., 1.], [1., 1., 1.]])
+
+
 
