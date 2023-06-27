@@ -7,6 +7,7 @@ import torch.nn.functional as F
 from torch.utils.data import TensorDataset
 from torch.utils.data import DataLoader
 
+# 데이터 불러오기
 
 # x_train : 4x3 matrix
 x_train = torch.FloatTensor(
