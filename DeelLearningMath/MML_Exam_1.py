@@ -1,10 +1,12 @@
 import random
+import numpy as np
 
+np.random.seed(8)
 
 def gen_data(mat, n, m):
     for i in range(n):
         for j in range(m):
-            mat[i][j] = random.randint(1, 9)
+            mat[i][j] = np.random.randint(1, 10)
 
 
 def matmul(mat1, mat2, result):
@@ -19,23 +21,24 @@ def matmul(mat1, mat2, result):
 
 
 if __name__ == "__main__":
-    random.seed(8)
 
-    n = random.randint(3, 20)
-    m = random.randint(3, 20)
+    n = np.random.randint(3, 20)
+    m = np.random.randint(3, 20)
 
-    print(n, m) # 10 14
+    print(n, m) # 6 12
 
-    mat1 = [[0] * m for _ in range(n)]
-    mat2 = [[0] * n for _ in range(m)]
-    result = [[0] * n for _ in range(n)]
+    mat1 = np.zeros((n, m))
+    mat2 = np.zeros((m, n))
+    result = np.zeros((n, n))
 
     gen_data(mat1, n, m)
     gen_data(mat2, m, n)
     matmul(mat1, mat2, result)
 
-    for row in result[:6]:
-        print(row[:6])
+    # print(mat1)
+    # print(mat2)
+    print(result)
+    # print(result.shape) (6, 6)
 
 """
 [365, 251, 310, 326, 346, 360]
